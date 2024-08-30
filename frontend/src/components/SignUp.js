@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import the Link component
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
+import axios from 'axios'; // Import axios for HTTP requests
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,10 @@ const SignUp = () => {
     gender: '',
     password: '',
   });
+
+  const [notification, setNotification] = useState(''); // State for notification
+
+  const navigate = useNavigate(); // Hook to navigate to different routes
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,16 +51,31 @@ const SignUp = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle form submission logic here
-      console.log(formData);
+      try {
+        const response = await axios.post('http://localhost:8000/api/signup', formData);
+        console.log(response.data);
+        setNotification('Registered successfully'); // Show notification
+        setTimeout(() => {
+          setNotification(''); // Clear notification after a few seconds
+          navigate('/login'); // Redirect to login page
+        }, 2000); // Adjust timing as needed
+      } catch (error) {
+        console.error('Error submitting form', error);
+        setNotification('Failed to register. Please try again.');
+      }
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
+      {notification && (
+        <div className="mb-4 p-3 text-center text-white bg-green-500 rounded-md">
+          {notification}
+        </div>
+      )}
       <h2 className="text-2xl font-semibold mb-6 text-center">Sign Up</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -87,7 +107,7 @@ const SignUp = () => {
         <div>
           <label htmlFor="email" className="block text-gray-700">Email</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
             value={formData.email}
