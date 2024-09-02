@@ -30,41 +30,34 @@ const handleFileUpload = async (req, res) => {
       return res.status(400).json({ message: "The file is empty" });
     }
 
-
-
-    // Process each row
+    // Validation check for all rows before inserting any data
     for (const row of data) {
-       // Check if email is missing
-       if (!row.email) {
+      // Check if email is missing
+      if (!row.email) {
         fs.unlinkSync(file.path); // Clean up uploaded file
-        return res
-          .status(400)
-          .json({ message: "Please enter email for all rows." });
+        return res.status(400).json({ message: "Please enter email for all rows." });
       }
+      
       // Check if the email already exists in the database
       const existingRecord = await ExcelData.findOne({
         where: { email: row.email },
       });
       if (existingRecord) {
         fs.unlinkSync(file.path); // Clean up uploaded file
-        return res
-          .status(400)
-          .json({
-            message: `The email ${row.email} already exists in the database.`,
-          });
+        return res.status(400).json({
+          message: `The email ${row.email} already exists in the database.`,
+        });
       }
 
-      // Check if the name column is empty
+      // Check if the contact number is empty
       if (!row.contact_no) {
-        // Clean up uploaded file
-        fs.unlinkSync(file.path);
-        return res
-          .status(400)
-          .json({ message: "Please enter your contact no for all rows." });
+        fs.unlinkSync(file.path); // Clean up uploaded file
+        return res.status(400).json({ message: "Please enter your contact no for all rows." });
       }
+    }
 
-      
-      // Insert data into PostgreSQL
+    // Insert data into PostgreSQL after all validations pass
+    for (const row of data) {
       await ExcelData.create({
         name: row.name,
         email: row.email,
@@ -74,9 +67,6 @@ const handleFileUpload = async (req, res) => {
         upload_users_id: uploadUsersId,
       });
     }
-
-
-  
 
     // Clean up uploaded file
     fs.unlinkSync(file.path);

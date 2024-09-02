@@ -33,33 +33,38 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      const userId = localStorage.getItem('userId');
-      console.log('User ID from localStorage:', userId); // Debugging line
-      formData.append('upload_users_id', userId); // Add user ID to form data
-      console.log("user id from local storage in upload " + userId);
+    
+    if (!file) {
+      setError('Please select a file before uploading.'); // Set error message if no file is selected
+      setSuccess(''); // Clear any previous success message
+      return; // Stop the function execution
+    }
 
-      try {
-        const response = await fetch('http://localhost:8000/api/files/upload', {
-          method: 'POST',
-          body: formData,
-        });
-        if (response.ok) {
-          setSuccess('File uploaded successfully!'); // Set success message
-          setError(''); // Clear any previous error message
-          setFile(null); // Reset file state
-          fileInputRef.current.value = ''; // Clear the file input field using the reference
-          setTimeout(() => setSuccess(''), 3000); // Clear success message after 3 seconds
-        } else {
-          const data = await response.json();
-          setError(`Upload failed: ${data.message || 'An error occurred'}`);
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        setError('Error uploading file: ' + error.message);
+    const formData = new FormData();
+    formData.append('file', file);
+    const userId = localStorage.getItem('userId');
+    console.log('User ID from localStorage:', userId); // Debugging line
+    formData.append('upload_users_id', userId); // Add user ID to form data
+    console.log("user id from local storage in upload " + userId);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/files/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok) {
+        setSuccess('File uploaded successfully!'); // Set success message
+        setError(''); // Clear any previous error message
+        setFile(null); // Reset file state
+        fileInputRef.current.value = ''; // Clear the file input field using the reference
+        setTimeout(() => setSuccess(''), 3000); // Clear success message after 3 seconds
+      } else {
+        const data = await response.json();
+        setError(`Upload failed: ${data.message || 'An error occurred'}`);
       }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setError('Error uploading file: ' + error.message);
     }
   };
 
