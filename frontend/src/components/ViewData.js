@@ -3,6 +3,8 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 const ViewData = () => {
   const [data, setData] = useState([]);
@@ -152,17 +154,17 @@ const ViewData = () => {
               Back
             </button>
             <button
-              onClick={handleExportExcel}
-              className="px-4 py-2 bg-green-500 text-white rounded"
-            >
-              Download Excel File
-            </button>
-            <button
-              onClick={handleExportPdf}
-              className="px-4 py-2 bg-red-500 text-white rounded"
-            >
-              Download Pdf File
-            </button>
+        onClick={handleExportExcel}
+        className="px-4 py-2 bg-green-500 text-white rounded flex items-center justify-center"
+      >
+        <FontAwesomeIcon icon={faFileExcel} className="text-white text-xl" />
+      </button>
+      <button
+        onClick={handleExportPdf}
+        className="px-4 py-2 bg-red-500 text-white rounded flex items-center justify-center"
+      >
+        <FontAwesomeIcon icon={faFilePdf} className="text-white text-xl" />
+      </button>
           </div>
           {/* Notifications related to file downloads */}
           {excelNotification && <p className="text-green-500">{excelNotification}</p>}
