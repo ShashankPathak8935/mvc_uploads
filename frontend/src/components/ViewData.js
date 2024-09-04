@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { useNavigate } from 'react-router-dom';
 
 const ViewData = () => {
   const [data, setData] = useState([]);
@@ -13,7 +14,8 @@ const ViewData = () => {
   const [notification, setNotification] = useState(''); // State to handle notifications
   const [excelNotification, setExcelNotification] = useState(''); // State for Excel notification
   const [pdfNotification, setPdfNotification] = useState(''); // State for PDF notification
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +103,10 @@ const ViewData = () => {
     setExcelNotification('Excel file has been downloaded successfully.'); // Set Excel notification
   };
 
+  const handleBack = () => {
+    navigate('/home')
+  }
+
   const handleExportPdf = () => {
     if (filteredData.length === 0) {
       setNotification('pdf data not available.');
@@ -139,6 +145,12 @@ const ViewData = () => {
         <h2 className="text-3xl font-bold">User Information</h2>
         <div className="flex flex-col items-start space-y-2">
           <div className="flex items-center space-x-4">
+          <button
+              onClick={handleBack}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Back
+            </button>
             <button
               onClick={handleExportExcel}
               className="px-4 py-2 bg-green-500 text-white rounded"
@@ -154,7 +166,7 @@ const ViewData = () => {
           </div>
           {/* Notifications related to file downloads */}
           {excelNotification && <p className="text-green-500">{excelNotification}</p>}
-          {pdfNotification && <p className="text-red-500">{pdfNotification}</p>}
+          {pdfNotification && <p className="text-green-500">{pdfNotification}</p>}
           {notification && <p className="text-red-500">{notification}</p>}
         </div>
       </div>
