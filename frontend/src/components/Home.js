@@ -28,6 +28,9 @@ const Home = () => {
       setError('Unsupported file type! Please select a file with one of the following types: .xlsx, .xls, .csv, .txt');
       e.target.value = ''; // Reset the file input
       setSuccess(''); // Clear any previous success message
+
+      // Clear error message after 5 seconds
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -37,6 +40,8 @@ const Home = () => {
     if (!file) {
       setError('Please select a file before uploading.'); // Set error message if no file is selected
       setSuccess(''); // Clear any previous success message
+      // Clear error message after 5 seconds
+      setTimeout(() => setError(''), 3000);
       return; // Stop the function execution
     }
 
@@ -61,10 +66,14 @@ const Home = () => {
       } else {
         const data = await response.json();
         setError(`Upload failed: ${data.message || 'An error occurred'}`);
+        // Clear error message after 5 seconds
+        setTimeout(() => setError(''), 3000);
       }
     } catch (error) {
       console.error('Error uploading file:', error);
       setError('Error uploading file: ' + error.message);
+      // Clear error message after 5 seconds
+      setTimeout(() => setError(''), 3000);
     }
   };
 

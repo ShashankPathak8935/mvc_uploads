@@ -70,15 +70,23 @@ const ViewData = () => {
     setCurrentPage(1); // Reset to the first page when search query changes
   }, [searchQuery, data]);
 
+  // Effect to clear notifications and errors after 5 seconds
+  useEffect(() => {
+    if (error || notification || excelNotification || pdfNotification) {
+      const timer = setTimeout(() => {
+        setError('');
+        setNotification('');
+        setExcelNotification('');
+        setPdfNotification('');
+      }, 3000); // Clear messages after 5 seconds
+
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [error, notification, excelNotification, pdfNotification]);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  console.log("this is index of first item", indexOfFirstItem);
-  console.log("this is index of last item", indexOfLastItem);
-  console.log("this is current items", currentItems);
-  
-
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -214,19 +222,25 @@ const ViewData = () => {
 
       </table>
 
-      <div className="flex justify-between mt-4">
+      <div className="mt-4 flex justify-between">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
         >
           Previous
         </button>
-        <span className="self-center">Page {currentPage} of {totalPages}</span>
+        <p>
+          Page {currentPage} of {totalPages}
+        </p>
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
         >
           Next
         </button>
