@@ -15,6 +15,7 @@ router.post('/signup', async (req, res) => {
       gender,
       password,
     });
+    
 
     res.status(201).json({ message: 'User created successfully', user: newUser });
   } catch (error) {

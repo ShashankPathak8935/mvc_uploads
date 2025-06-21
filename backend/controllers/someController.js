@@ -3,7 +3,7 @@ const pool = require('../config/db');
 
 const getItems = async (req, res) => {
     try {
-      const result = await pool.query('SELECT * FROM shashank_pathak.uploadusers');
+      const result = await pool.query('SELECT * FROM mvc_uploads.uploadusers');
       res.status(200).json(result.rows);
     } catch (err) {
       console.error(err);

@@ -163,7 +163,6 @@ const handleFileUpload = async (req, res) => {
 
     res.json({ message: "File data successfully uploaded" });
   } catch (error) {
-    // Rollback the transaction in case of error
     if (transaction) await transaction.rollback();
     console.error("Error processing file:", error);
     res.status(500).json({ message: "Server error" });

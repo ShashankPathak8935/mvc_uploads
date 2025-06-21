@@ -30,7 +30,7 @@ const ExcelData = sequelize.define('excel_data', {
     },
   },
 }, {
-  schema: 'shashank_pathak',
+  schema: 'mvc_uploads',
   tableName: 'excel_data',
   timestamps: false,
 });

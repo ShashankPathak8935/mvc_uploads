@@ -18,27 +18,15 @@ app.use(express.json());
 
 // Use your routes
 app.use('/api/items', someRoutes);
-app.use('/api', signupRoutes); // Adjusted the route to use '/api' as the base
-app.use('/api/auth', loginRoutes); // Use '/api/auth' for login routes
-app.use('/api/files', fileUploadRoutes); // Adjusted to include file upload routes
-app.use('/api/files', dataRoutes); // Use the new route
+app.use('/api', signupRoutes);
+app.use('/api/auth', loginRoutes);
+app.use('/api/files', fileUploadRoutes);
+app.use('/api/files', dataRoutes);
 
 const PORT = process.env.PORT || 8000;
 
-
-// // Sync Sequelize models with the database
-// sequelize.sync()
-//   .then(() => {
-//     console.log('Database synchronized');
-//     app.listen(PORT, () => {
-//       console.log(`Server is running on port ${PORT}`);
-//     });
-//   })
-//   .catch(err => {
-//     console.error('Error syncing database:', err);
-//   });
-
 app.listen(PORT, () => {
+    console.log(`Database connection successful`)
     console.log(`Server is running on port ${PORT}`);
   });
 

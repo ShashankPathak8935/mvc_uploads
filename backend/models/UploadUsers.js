@@ -32,7 +32,7 @@ const UploadUsers = sequelize.define('uploadusers', {
     allowNull: false,
   },
 }, {
-  schema: 'shashank_pathak', // Specify your schema name
+  schema: 'mvc_uploads', // Specify your schema name
   tableName: 'uploadusers', // Specify your table name
   timestamps: false, // Disable automatic timestamp columns
 });

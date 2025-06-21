@@ -1,8 +1,8 @@
-const ExcelData = require('../models/ExcelData'); // Make sure the path is correct
+const ExcelData = require('../models/ExcelData');
 
 const getUserData = async (req, res) => {
     try {
-        const userId = req.headers['upload_users_id']; // Get user ID from request headers
+        const userId = req.headers['upload_users_id'];
 
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required' });
