@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
-import axios from 'axios'; // Import axios for HTTP requests
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -19,9 +19,9 @@ const SignUp = () => {
     password: '',
   });
 
-  const [notification, setNotification] = useState(''); // State for notification
+  const [notification, setNotification] = useState('');
 
-  const navigate = useNavigate(); // Hook to navigate to different routes
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,11 +57,11 @@ const SignUp = () => {
       try {
         const response = await axios.post('http://localhost:8000/api/signup', formData);
         console.log(response.data);
-        setNotification('Registered successfully'); // Show notification
+        setNotification('Registered successfully');
         setTimeout(() => {
-          setNotification(''); // Clear notification after a few seconds
-          navigate('/login'); // Redirect to login page
-        }, 2000); // Adjust timing as needed
+          setNotification('');
+          navigate('/login');
+        }, 2000);
       } catch (error) {
         console.error('Error submitting form', error);
         setNotification('Failed to register. Please try again.');

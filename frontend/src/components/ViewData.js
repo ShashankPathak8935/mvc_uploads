@@ -13,9 +13,9 @@ const ViewData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const [notification, setNotification] = useState(''); // State to handle notifications
-  const [excelNotification, setExcelNotification] = useState(''); // State for Excel notification
-  const [pdfNotification, setPdfNotification] = useState(''); // State for PDF notification
+  const [notification, setNotification] = useState('');
+  const [excelNotification, setExcelNotification] = useState('');
+  const [pdfNotification, setPdfNotification] = useState('');
   const itemsPerPage = 10;
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const ViewData = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'upload_users_id': userId, // Send user ID as a header
+            'upload_users_id': userId,
           },
         });
 
@@ -67,10 +67,10 @@ const ViewData = () => {
 
     setFilteredData(filtered);
     setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-    setCurrentPage(1); // Reset to the first page when search query changes
+    setCurrentPage(1);
   }, [searchQuery, data]);
 
-  // Effect to clear notifications and errors after 5 seconds
+  
   useEffect(() => {
     if (error || notification || excelNotification || pdfNotification) {
       const timer = setTimeout(() => {
@@ -78,9 +78,9 @@ const ViewData = () => {
         setNotification('');
         setExcelNotification('');
         setPdfNotification('');
-      }, 3000); // Clear messages after 5 seconds
+      }, 3000);
 
-      return () => clearTimeout(timer); // Cleanup the timer
+      return () => clearTimeout(timer);
     }
   }, [error, notification, excelNotification, pdfNotification]);
 
@@ -109,8 +109,8 @@ const ViewData = () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'User Data');
     XLSX.writeFile(workbook, 'UserData.xlsx');
-    setNotification(''); // Clear any previous notifications
-    setExcelNotification('Excel file has been downloaded successfully.'); // Set Excel notification
+    setNotification('');
+    setExcelNotification('Excel file has been downloaded successfully.');
   };
 
   const handleBack = () => {
@@ -145,8 +145,8 @@ const ViewData = () => {
     });
 
     doc.save('UserData.pdf');
-    setNotification(''); // Clear any previous notifications
-    setPdfNotification('PDF file has been downloaded successfully.'); // Set PDF notification
+    setNotification('');
+    setPdfNotification('PDF file has been downloaded successfully.');
   };
 
   return (
@@ -174,7 +174,6 @@ const ViewData = () => {
         <FontAwesomeIcon icon={faFilePdf} className="text-white text-xl" />
       </button>
           </div>
-          {/* Notifications related to file downloads */}
           {excelNotification && <p className="text-green-500">{excelNotification}</p>}
           {pdfNotification && <p className="text-green-500">{pdfNotification}</p>}
           {notification && <p className="text-red-500">{notification}</p>}
@@ -207,7 +206,6 @@ const ViewData = () => {
         <tbody>
   {currentItems.map((item, index) => (
     <tr key={item.id}>
-      {/* Display ID starts from 1 and increments with each item */}
       <td className="border border-gray-300 px-4 py-2">
         {indexOfFirstItem + index + 1}
       </td>

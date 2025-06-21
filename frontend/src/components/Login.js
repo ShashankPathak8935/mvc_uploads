@@ -13,9 +13,9 @@ const Login = () => {
     password: '',
   });
 
-  const [errorMessage, setErrorMessage] = useState(''); // State for displaying login error messages
+  const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const navigate = useNavigate(); // Hook to programmatically navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +23,11 @@ const Login = () => {
       ...prevData,
       [name]: value,
     }));
-
-    // Clear error message on change
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: '',
     }));
-    setErrorMessage(''); // Clear any error message when input changes
+    setErrorMessage('');
   };
 
   const validateForm = () => {
@@ -48,17 +46,17 @@ const Login = () => {
     if (validateForm()) {
       try {
         const response = await axios.post('http://localhost:8000/api/auth/login', formData);
-        localStorage.setItem('authToken', response.data.token); // Store JWT token
-        localStorage.setItem('userName', response.data.userName); // Store username
-        localStorage.setItem('userId', response.data.userId); // Store user ID
+        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('userName', response.data.userName);
+        localStorage.setItem('userId', response.data.userId);
 
         setSuccessMessage('Successfully logged in!');
         setTimeout(() => {
-          navigate('/home'); // Redirect to home page after a delay
-        }, 2000); // Adjust delay as needed (2 seconds in this case)
+          navigate('/home');
+        }, 2000);
       } catch (error) {
         console.error('Login error:', error.response ? error.response.data : error.message);
-        setErrorMessage(error.response?.data?.message || 'An error occurred during login'); // Set the error message from the server response
+        setErrorMessage(error.response?.data?.message || 'An error occurred during login');
       }
     }
   };

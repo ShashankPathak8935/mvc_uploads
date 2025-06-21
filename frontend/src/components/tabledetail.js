@@ -3,7 +3,7 @@ import React from 'react'
 const tabledetail = () => {
   return (
     <div>
-      CREATE TABLE shashank_pathak.uploadusers (
+      CREATE TABLE mvc_uploads.uploadusers (
 	id serial4 NOT NULL,
 	"name" varchar(100) NOT NULL,
 	username varchar(50) NOT NULL,
@@ -20,7 +20,7 @@ const tabledetail = () => {
 
 
 ///////  
-CREATE TABLE shashank_pathak.excel_data (
+CREATE TABLE mvc_uploads.excel_data (
 	id serial4 NOT NULL,
 	"name" varchar(100) NULL,
 	email varchar(100) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE shashank_pathak.excel_data (
 
 -- shashank_pathak.excel_data foreign keys
 
-ALTER TABLE shashank_pathak.excel_data ADD CONSTRAINT excel_data_upload_users_id_fkey FOREIGN KEY (upload_users_id) REFERENCES shashank_pathak.uploadusers(id) ON DELETE SET NULL;
+ALTER TABLE mvc_uploads.excel_data ADD CONSTRAINT excel_data_upload_users_id_fkey FOREIGN KEY (upload_users_id) REFERENCES mvc_uploads.uploadusers(id) ON DELETE SET NULL;
     </div>
   )
 }
